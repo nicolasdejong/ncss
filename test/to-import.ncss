@@ -1,0 +1,7 @@
+ncss.imported {
+  .by {
+    .ncss {
+      color: green;
+    }
+  }
+}

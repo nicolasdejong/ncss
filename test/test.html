@@ -1,0 +1,135 @@
+<html>
+<head>
+  <title>NCSS - test</title>
+
+
+  <style type="text/scss" remark="actually type=text/ncss but (ide-)editor cannot always be configured for it. ncss supports both.">
+    <![CDATA[
+    @import "to-import.css";
+    @import "to-import2.css";
+    /* ' */.this-will-be-missing { color:blue; }/* ' missing due to simplistic tokenization: quoted is removed */
+    /* " */.existing { color: red; }
+    /* " */
+    :root { color:gray; }
+    .panel {
+      height: 12px;
+      color: green;
+      .button {
+        color: blue;
+        &:after { content: '}"'; }
+        &.disabled {
+          &.in-orange { color: orange; }
+          color: gray;
+        }
+      }
+    }
+    input.form-control {
+        &[type=number],
+        &[type=text] {
+          color: red;
+        }
+    }
+    #main {
+      width: 97%;
+
+      p, div {
+        font-size: 2em;
+        a { font-weight: bold; }
+      }
+
+      pre { font-size: 3em; }
+    }
+    a {
+      font-weight: bold;
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
+      body.firefox & { font-weight: normal; }
+    }
+    @media screen {
+      .sidebar {
+        color: green;
+      }
+    }
+    @media print {
+      .sidebar {
+        color: orange;
+        .button { color: blue; }
+      }
+    }
+    @keyframes animate-to-error {
+      50% { background-color: white; }
+      100% { background-color: red; }
+    }
+    @charset "UTF-8";
+    @namespace url(http://www.w3.org/1999/xhtml);
+    @document
+      url(http://css-tricks.com/),
+      url-prefix(http://css-tricks.com/snippets/),
+      domain(css-tricks.com),
+      regexp("https:.*")
+    {
+      body { font-family: Comic Sans; }
+    }
+    @font-face {
+      font-family: 'MyWebFont';
+      src: url('myfont.woff2') format('woff2'),
+           url('myfont.woff') format('woff');
+    }
+    @media only screen
+      and (min-device-width: 320px)
+      and (max-device-width: 480px)
+      and (-webkit-min-device-pixel-ratio: 2) {
+
+        .module { width: 100%; }
+
+    }
+    @page :first {
+      margin: 1in;
+    }
+    @supports (display: flex) {
+      .module { display: flex; }
+    }
+    @supports (display: flex) and (-webkit-appearance: checkbox) {
+      .module { display: flex; .panel { color: green; } }
+    }
+    ]]>
+  </style>
+
+
+  <style type="text/css-expected">
+    @import "to-import.css";
+    @import "to-import2.css";
+    .existing { color: red; }
+    :root { color:gray; }
+    .panel { height: 12px; color: green; }
+    .panel .button { color: blue; }
+    .panel .button:after { content: '}"'; }
+    .panel .button.disabled { color: gray; }
+    .panel .button.disabled.in-orange { color: orange; }
+    input.form-control[type=number], input.form-control[type=text] { color: red; }
+    #main { width: 97%; }
+    #main p, #main div { font-size: 2em; }
+    #main p a, #main div a { font-weight: bold; }
+    #main pre { font-size: 3em; }
+    a { font-weight: bold; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    body.firefox a { font-weight: normal; }
+    @media screen { .sidebar { color: green; } }
+    @media print { .sidebar { color: orange; } .sidebar .button { color: blue; } }
+    @keyframes animate-to-error { 50% { background-color: white; } 100% { background-color: red; } }
+    @charset "UTF-8";
+    @namespace url(http://www.w3.org/1999/xhtml);
+    @document url(http://css-tricks.com/), url-prefix(http://css-tricks.com/snippets/), domain(css-tricks.com), regexp("https:.*") { body { font-family: Comic Sans; } }
+    @font-face { font-family: 'MyWebFont'; src: url('myfont.woff2') format('woff2'), url('myfont.woff') format('woff'); }
+    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) { .module { width: 100%; } }
+    @page :first { margin: 1in; }
+    @supports (display: flex) { .module { display: flex; } }
+    @supports (display: flex) and (-webkit-appearance: checkbox) { .module { display: flex; } .module .panel { color: green; } }
+  </style>
+
+
+  <script>ncssNode = document.querySelector('style[type="text/scss"]');</script>
+  <script src="../ncss.js"></script>
+  <script src="ncss-test.js"></script>
+</head>
+</html>
